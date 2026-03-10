@@ -1,0 +1,44 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@using UmbracoApplicationIntegration.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BookReview>
+@{
+    Layout = "master.cshtml";
+}
+
+<article class="umb-panel umb-panel--outline">
+    <header class="umb-panel__header">
+        <h1 class="umb-heading">@Model.Title</h1>
+    </header>
+
+    <section class="umb-panel__body">
+        @if (Model.CoverImage != null)
+        {
+            var mediaCrop = Url.GetCropUrl(Model.CoverImage, "Landscape");
+            <div class="umb-media">
+                <img src="@mediaCrop" alt="Cover image of @Model.Title" class="umb-image umb-image--cover" />
+            </div>
+        }
+        else
+        {
+            <div class="umb-media">
+                <img src="https://via.placeholder.com/400x250" alt="Placeholder image" class="umb-image umb-image--placeholder" />
+            </div>
+        }
+
+        <hr class="umb-divider umb-divider--large" />
+
+        <div class="umb-text umb-text--secondary">
+            <h3 class="umb-heading umb-heading--sub">@Model.Title was written by @Model.Author and published in @Model.YearOfPublication. The genre of the book is @Model.Genre</h3>
+        </div>
+
+        <p class="umb-text umb-text--body">@Model.Review</p> <!-- Full review content -->
+    </section>
+
+    <footer class="umb-panel__footer">
+        <ul class="umb-actions">
+            <li>
+                <a href="@Model.Root().Url()" class="umb-button umb-button--primary">Back to Reviews</a>
+            </li>
+        </ul>
+    </footer>
+</article>

@@ -1,0 +1,96 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@using UmbracoApplicationIntegration.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+    Layout = "Master.cshtml";
+    var bookReviews = Model.Children<BookReview>();
+}
+
+<section class="umb-section">
+    <div class="umb-grid umb-grid--cards umb-grid--responsive">
+        @foreach (var bookReview in bookReviews)
+        {
+            <article class="umb-card umb-card--shadow umb-card--fixed-height umb-card--hover">
+                <a href="@bookReview.Url()" class="umb-card__media-link">
+                    @if (bookReview.CoverImage != null)
+                    {
+                        var mediaCrop = Url.GetCropUrl(bookReview.CoverImage, "Thumbnail");
+                        <div class="umb-card__media">
+                            <img src="@mediaCrop" alt="Cover image of @bookReview.Title" class="umb-image umb-image--cover umb-card__image" />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="umb-card__media">
+                            <img src="https://via.placeholder.com/400x250" alt="Placeholder image" class="umb-image umb-image--placeholder umb-card__image" />
+                        </div>
+                    }
+                </a>
+
+                <div class="umb-card__body">
+                    <h3 class="umb-heading umb-heading--sub">@bookReview.Title</h3>
+                    <p class="umb-text umb-text--body">@bookReview.ReviewSummary</p>
+                </div>
+
+                <div class="umb-card__footer umb-card__footer--bottom">
+                    <a href="@bookReview.Url()" class="umb-button umb-button--primary umb-button--small">Read more</a>
+                </div>
+            </article>
+        }
+    </div>
+</section>
+
+<style>
+    /* Responsive grid layout for multiple cards per row with increased spacing */
+    .umb-grid--responsive {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 24px;
+    }
+
+    /* Ensure images are cropped and fit within their containers */
+    .umb-card__image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+        border-radius: 4px;
+    }
+
+    /* Style to ensure consistent card height */
+    .umb-card--fixed-height {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        min-height: 350px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Hover effect for the card */
+    .umb-card--hover:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        border: 1px solid #ddd;
+    }
+
+    /* Add padding to the text body of the card */
+    .umb-card__body {
+        padding: 0 16px; /* Adds margin on the left and right */
+    }
+
+    .umb-card__media-link {
+        text-decoration: none;
+    }
+
+    /* Position the "Read more" button at the bottom of the card */
+    .umb-card__footer {
+        margin-top: auto;
+        padding: 0 16px; /* Matches padding on text body */
+    }
+
+    .umb-card__footer--bottom {
+        display: flex;
+        align-items: flex-end;
+    }
+</style>

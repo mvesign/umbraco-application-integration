@@ -1,0 +1,116 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+    Layout = null;
+    var rootNode = Model.Root();
+    var NavigationNodes = Model.Root().Children().Where(x => x.IsVisible());
+}
+@* <meta http-equiv="Content-Security-Policy" content="connect-src 'self' https://*.algolia.net https://*.hsforms.com https://*.hubspot.com; https://*.shopify.com"> *@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Scripts -->
+	<script src="/scripts/breakpoints.min.js"></script>
+	<script src="/scripts/jquery.min.js"></script>
+	<script src="/scripts/browser.min.js"></script>
+	<script src="/scripts/util.js"></script>
+	<!-- When you have at signs in a URL as you see below you'll need to use ("at sign") to indicate that this is not the start of some razor code. -->
+	<script src="https://cdn.jsdelivr.net/npm/@("@")umbraco-ui/uui@("@")latest/dist/uui.min.js"></script>
+	<!-- CSS -->
+	<link rel="stylesheet" href="/css/main.css" />
+</head>
+<body class="is-preload">
+	<!-- Wrapper -->
+	<div id="wrapper">
+		<!-- Main -->
+		<div id="main">
+			<div class="inner">
+				@RenderBody()
+			</div>
+		</div>
+		<!-- Sidebar -->
+		<div id="sidebar">
+			<div class="inner">
+				<!-- Menu -->
+				<nav id="menu">
+					<header class="major">
+						<h2><a href="/">Umbazing</a></h2>
+					</header>
+					<ul>
+					@foreach (var node in NavigationNodes)
+					{
+						<li><a href="@node.Url()">@node.Name</a></li>
+					}
+					</ul>
+				</nav>
+                <!-- Section -->
+                <section>
+                    <header class="major">
+                        <h2>Highlights</h2>
+                    </header>
+                    <div class="mini-posts">
+                        @{
+                            if (rootNode != null && rootNode.HasValue("highlightedBooks"))
+                            {
+                                    // Retrieve the highlighted books as an IEnumerable of IPublishedContent
+                                    var highlightedBooks = rootNode.Value<IEnumerable<IPublishedContent>>("highlightedBooks");
+
+                                    // Loop through each highlighted book
+                                    foreach (IPublishedContent bookReview in highlightedBooks!)
+                                    {
+                                        var coverImageUrl = "https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg";
+                                        // Access the cover image and review summary properties
+                                        if (bookReview.HasValue("coverImage"))
+                                        {
+                                            // Retrieve the coverImage content if available
+                                            var coverImage = bookReview.Value<IPublishedContent>("coverImage");
+                                            if (coverImage != null)
+                                            {
+                                                coverImageUrl = coverImage.Url(); // Get the URL of the cover image
+                                            }
+                                        }
+                                        var reviewSummary = bookReview.Value<string>("reviewSummary") ?? "No review available.";
+                                        var bookUrl = bookReview.Url(); // Get the URL of the Book Review page
+
+                                        <article>
+                                            <a href="@bookUrl" class="image" target="_blank">
+                                                <img src="@coverImageUrl" alt="Book cover" />
+                                            </a>
+                                            <p>@reviewSummary</p>
+                                        </article>
+                                    }
+                            }
+							else
+							{
+								<p>No highlighted books available.</p>
+							}
+                            // Find the "books" child page of rootNode
+                            // var booksPageUrl = rootNode.Children.FirstOrDefault(x => x.ContentType.Alias == "books")?.Url();
+                        }
+                    </div>
+                    @* <ul class="actions">
+                        <li><a href="@booksPageUrl" class="button">More</a></li>
+                    </ul> *@
+                </section>
+                <!-- Section -->
+				<section>
+					<header class="major">
+						<h2>Get in touch</h2>
+					</header>
+                    <p>You can always get in touch with Umbraco HQ by giving us a call or sending us an email.</p>
+					<ul class="contact">
+						<li class="icon solid fa-envelope"><a href="#">contact@umbraco.com</a></li>
+                        <li class="icon solid fa-home">Buchwaldsgade 35, 2. sal (second floor)<br />5000 Odense</li>
+					</ul>
+				</section>
+				<!-- Footer -->
+				<footer id="footer">
+                    <p class="copyright">Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design inspiration: <a href="https://html5up.net">HTML5 UP</a>.</p>
+				</footer>
+			</div>
+		</div>
+	</div>
+    <script src="/scripts/main.js"></script>
+</body>
+</html>
