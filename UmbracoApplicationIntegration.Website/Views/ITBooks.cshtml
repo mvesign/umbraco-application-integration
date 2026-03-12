@@ -1,4 +1,7 @@
 ﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@inject UmbracoApplicationIntegration.Logic.Services.BookService bookService
 @{
     Layout = "Master.cshtml";
+    var books = bookService.GetITBooks();
 }
+@await Html.PartialAsync("_Books", books)

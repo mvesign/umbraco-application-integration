@@ -1,0 +1,13 @@
+﻿@model IEnumerable<UmbracoApplicationIntegration.Models.Book>
+
+<div class="book-list grid-container">
+    @foreach (var book in Model)
+    {
+        <div class="book-item">
+            <img src="@book.Image" alt="@book.Title" class="imgfit" onerror="this.onerror=null; this.src='/media/luffz20o/placeholder.png';" />
+            <h2>@book.Title</h2>
+            <p><strong>Author:</strong> @book.Author</p>
+            <p><strong>Year:</strong> @book.Year</p>
+        </div>
+    }
+</div>

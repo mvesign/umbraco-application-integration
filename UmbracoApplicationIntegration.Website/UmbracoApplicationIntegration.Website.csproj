@@ -9,6 +9,7 @@
 		<PackageReference Include="uSync" />
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\UmbracoApplicationIntegration.Logic\UmbracoApplicationIntegration.Logic.csproj" />
 		<ProjectReference Include="..\UmbracoApplicationIntegration.Models\UmbracoApplicationIntegration.Models.csproj" />
 	</ItemGroup>
 	<ItemGroup>

@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/_Data/">
+	<File Path="Data/ClassicBooks.json" />
+	<File Path="Data/ITBooks.json" />
+  </Folder>
   <Folder Name="/_SolutionFiles/">
     <File Path=".gitignore" />
     <File Path="Directory.Build.props" />
@@ -8,6 +12,7 @@
     <File Path="nuget.config" />
     <File Path="README.md" />
   </Folder>
+  <Project Path="UmbracoApplicationIntegration.Logic/UmbracoApplicationIntegration.Logic.csproj" />
   <Project Path="UmbracoApplicationIntegration.Models/UmbracoApplicationIntegration.Models.csproj" />
   <Project Path="UmbracoApplicationIntegration.Website/UmbracoApplicationIntegration.Website.csproj" />
 </Solution>
