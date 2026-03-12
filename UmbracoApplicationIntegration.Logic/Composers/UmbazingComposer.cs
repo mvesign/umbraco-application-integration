@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.Mapping;
+using UmbracoApplicationIntegration.Logic.Mappers;
 using UmbracoApplicationIntegration.Logic.Services;
 
 namespace UmbracoApplicationIntegration.Logic.Composers;

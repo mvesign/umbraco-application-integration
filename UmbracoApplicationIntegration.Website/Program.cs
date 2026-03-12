@@ -1,3 +1,6 @@
+using Umbraco.UIBuilder.Extensions;
+using UmbracoApplicationIntegration.Logic;
+
 var builder = WebApplication.CreateBuilder(args);
 
 #if DEBUG
@@ -9,6 +12,8 @@ builder.Configuration.AddJsonFile("appsettings.Local.json", true, true);
 builder.CreateUmbracoBuilder()
     .AddBackOffice()
     .AddWebsite()
+    .AddUIBuilder(config => config.AddRepositoriesSection())
+    .AddDeliveryApi()
     .AddComposers()
     .Build();
 

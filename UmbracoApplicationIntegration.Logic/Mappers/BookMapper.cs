@@ -1,11 +1,9 @@
 ﻿using System.Globalization;
-using System.Text.Json;
 using Umbraco.Cms.Core.Mapping;
 using UmbracoApplicationIntegration.Models;
 using UmbracoApplicationIntegration.Models.External;
-using File = System.IO.File;
 
-namespace UmbracoApplicationIntegration.Logic.Services;
+namespace UmbracoApplicationIntegration.Logic.Mappers;
 
 public class BookMapper : IMapDefinition
 {
@@ -15,42 +13,15 @@ public class BookMapper : IMapDefinition
     {
         mapper.Define<ITBookJson, Book>((source, context) => new Book(), MapITBookJsonToBook);
         mapper.Define<ClassicBookJson, Book>((source, context) => new Book(), MapClassicBookJsonToBook);
-    }
-
-    public List<ITBookJson> LoadITBooksFromJson(string filePath) =>
-        LoadBooksFromJson<ITBookJson>(filePath);
-
-    public List<ClassicBookJson> LoadClassicBooksFromJson(string filePath) =>
-        LoadBooksFromJson<ClassicBookJson>(filePath);
-
-    private static List<T> LoadBooksFromJson<T>(string filePath)
-    {
-        try
-        {
-            if (!File.Exists(filePath))
-            {
-                return [];
-            }
-
-            var content = File.ReadAllText(filePath);
-
-            return !string.IsNullOrWhiteSpace(content)
-                ? JsonSerializer.Deserialize<List<T>>(content) ?? []
-                : [];
-        }
-        catch
-        {
-            // Don't really cares why, just return an empty list if something goes wrong.
-            return [];
-        }
+        mapper.Define<Book, ClassicBookJson>((source, context) => new ClassicBookJson(), MapBookToClassicBookJson);
     }
 
     private static void MapITBookJsonToBook(ITBookJson source, Book target, MapperContext context)
     {
         target.Id = source.Id;
-        target.Title = source.Title;
-        target.Author = source.Authors?.Count > 0 ? source.Authors[0] : null;
-        target.Image = source.ThumbnailUrl;
+        target.Title = source.Title ?? string.Empty;
+        target.Author = source.Authors?.Count > 0 ? source.Authors[0] : string.Empty;
+        target.Image = source.ThumbnailUrl ?? string.Empty;
 
         if (DateTime.TryParse(source.PublishedDate?.Date, dutchProvider, out var publishedDate))
         {
@@ -66,11 +37,22 @@ public class BookMapper : IMapDefinition
     private static void MapClassicBookJsonToBook(ClassicBookJson source, Book target, MapperContext context)
     {
         target.Id = source.Id;
+        target.Title = source.Title ?? string.Empty;
+        target.Author = source.Author ?? string.Empty;
+        target.Image = !string.IsNullOrEmpty(source.ImageLink)
+            ? $"/ClassicBookImages/{source.ImageLink.Replace("images/", string.Empty)}"
+            : "/media/luffz20o/placeholder.png";
+        target.Year = source.Year;
+    }
+
+    private static void MapBookToClassicBookJson(Book source, ClassicBookJson target, MapperContext context)
+    {
+        target.Id = source.Id;
         target.Title = source.Title;
         target.Author = source.Author;
-        target.Image = !string.IsNullOrEmpty(source.ImageLink)
-            ? $"/ClassicBookImages/{source.ImageLink.Replace("images/", "")}"
-            : "/media/luffz20o/placeholder.png";
+        target.ImageLink = !string.IsNullOrEmpty(source.Image) && source.Image.StartsWith("/ClassicBookImages/")
+            ? $"images/{source.Image.Replace("/ClassicBookImages/", string.Empty)}"
+            : source.Image;
         target.Year = source.Year;
     }
 }
