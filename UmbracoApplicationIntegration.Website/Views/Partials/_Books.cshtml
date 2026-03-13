@@ -8,6 +8,18 @@
             <h2>@book.Title</h2>
             <p><strong>Author:</strong> @book.Author</p>
             <p><strong>Year:</strong> @book.Year</p>
+            <div>
+                @if (book.Reviews != null && book.Reviews.Count > 0)
+                {
+                    @foreach (var review in book.Reviews)
+                    {
+                        <div class="review">
+                            <p>"@review.Content"</p>
+                            <p><strong>- @review.Reviewer</strong></p>
+                        </div>
+                    }
+                }
+            </div>
         </div>
     }
 </div>

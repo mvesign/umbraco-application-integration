@@ -1,12 +1,15 @@
 ﻿using System.Text.Json;
 using Umbraco.Cms.Core.Mapping;
+using Umbraco.Cms.Core.Web;
 using UmbracoApplicationIntegration.Models;
 using UmbracoApplicationIntegration.Models.External;
 using File = System.IO.File;
 
 namespace UmbracoApplicationIntegration.Logic.Services;
 
-public sealed class BookService(IUmbracoMapper mapper)
+public sealed class BookService(
+    IUmbracoMapper mapper,
+    IUmbracoContextAccessor umbracoContextAccessor)
 {
     private const string JsonDirectory = "../Data/";
     private const string ITBooksFileName = "ITBooks.json";
@@ -35,9 +38,17 @@ public sealed class BookService(IUmbracoMapper mapper)
 
         var booksJson = loadBooksFromJson(filePath);
         
-        return booksJson != null && booksJson.Count > 0
-            ? [.. mapper.MapEnumerable<T, Book>(booksJson)]
-            : [];
+        if (booksJson == null || booksJson.Count == 0)
+        {
+            return [];
+        }
+
+        var books = mapper.MapEnumerable<T, Book>(booksJson).ToList();
+        foreach (var book in books)
+        {
+            book.Reviews = GetReviewsByBookId(book.Id);
+        }
+        return books;
     }
 
     private static string GetJsonFilePath(string fileName) =>
@@ -97,5 +108,29 @@ public sealed class BookService(IUmbracoMapper mapper)
         {
             // Don't really cares why.
         }
+    }
+
+    private List<Review> GetReviewsByBookId(int bookId)
+    {
+        if (!umbracoContextAccessor.TryGetUmbracoContext(out var context)
+            || context is null
+            || !(context.PublishedRequest?.PublishedContent?.Root() is var rootNode)
+            || rootNode is null)
+        {
+            return [];
+        }
+
+        var reviewsNode = rootNode.FirstChildOfType(ClassicBooks.ModelTypeAlias);
+
+        return reviewsNode?
+            .ChildrenOfType(ClassicBookReview.ModelTypeAlias)
+            .Where(x => x.Value<int>("bookId") == bookId)
+            .Select(x => new Review
+            {
+                Content = x.Value<string>("content") ?? string.Empty,
+                Reviewer = x.Value<string>("reviewer") ?? string.Empty,
+            })
+            .ToList()
+            ?? [];
     }
 }

@@ -1,5 +1,5 @@
 using Umbraco.UIBuilder.Extensions;
-using UmbracoApplicationIntegration.Logic;
+using UmbracoApplicationIntegration.Logic.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +12,11 @@ builder.Configuration.AddJsonFile("appsettings.Local.json", true, true);
 builder.CreateUmbracoBuilder()
     .AddBackOffice()
     .AddWebsite()
-    .AddUIBuilder(config => config.AddRepositoriesSection())
+    .AddUIBuilder(config =>
+    {
+        config.AddRepositoriesSection();
+        config.AddBooksDashboard();
+    })
     .AddDeliveryApi()
     .AddComposers()
     .Build();

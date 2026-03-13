@@ -11,4 +11,6 @@ public sealed class Book
     public string Image { get; set; } = string.Empty;
 
     public int Year { get; set; }
+
+    public List<Review> Reviews { get; set; } = [];
 }
