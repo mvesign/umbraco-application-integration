@@ -34,8 +34,8 @@ public sealed class ITBooksIndexValueSetBuilder : IValueSetBuilder<ITBookModel>
         }
 
         var result = publishedDate.TryGetValue("$date", out var rawDateValue)
-            && rawDateValue is string dateValue
-                ? dateValue
+            && rawDateValue is DateTime dateValue
+                ? dateValue.ToString("yyyy-MM-dd HH:mm:ss")
                 : publishedDate.ToString();
 
         return result.IfNullOrWhiteSpace(string.Empty);
