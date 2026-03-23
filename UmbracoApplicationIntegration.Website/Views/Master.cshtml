@@ -1,6 +1,7 @@
 ﻿@using Umbraco.Cms.Web.Common.PublishedModels;
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 @using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@inject Microsoft.Extensions.Configuration.IConfiguration configuration
 @{
     Layout = null;
     var rootNode = Model.Root();
@@ -16,7 +17,9 @@
 	<script src="/scripts/browser.min.js"></script>
 	<script src="/scripts/util.js"></script>
 	<!-- When you have at signs in a URL as you see below you'll need to use ("at sign") to indicate that this is not the start of some razor code. -->
-	<script src="https://cdn.jsdelivr.net/npm/@("@")umbraco-ui/uui@("@")latest/dist/uui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@("@")umbraco-ui/uui@("@")latest/dist/uui.min.js"></script><!-- Add Algolia client and InstantSearch.js via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.8.6/dist/algoliasearch-lite.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.41.0"></script>
 	<!-- CSS -->
 	<link rel="stylesheet" href="/css/main.css" />
 </head>
@@ -112,5 +115,12 @@
 		</div>
 	</div>
     <script src="/scripts/main.js"></script>
+    <script>
+        window.algoliaSettings = {
+          applicationId: "@configuration["Umbraco:CMS:Integrations:Search:Algolia:Settings:ApplicationId"]",
+          searchApiKey: "@configuration["Umbraco:CMS:Integrations:Search:Algolia:Settings:SearchApiKey"]"
+        };
+    </script>
+    <script src="/scripts/algolia-search.js"></script>
 </body>
 </html>

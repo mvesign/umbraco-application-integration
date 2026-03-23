@@ -64,3 +64,19 @@ Course contains several knowledge checks exercises. Below are the questions pres
        }
    }
    ```
+
+## Exercise 4:
+
+1. Why might Algolia be a better option for your search feature than Examine? (pick multiple)
+   - Algolia is easier to scale for high-traffic applications.
+   - Algolia supports dynamic updates to search indexes without manual intervention.
+   - Algolia includes built-in analytics to monitor and optimize search performance.
+
+2. What does the Umbraco.Cms.Integrations.Search.Algolia package provide?
+   - Automation tools for indexing Umbraco content in Algolia
+
+3. How many search requests per month does Algolia's free tier currently support?
+   - 10,000 requests.
+
+4. Which JavaScript library lets you integrate Algolia’s search UI on the frontend?
+   - InstantSearch

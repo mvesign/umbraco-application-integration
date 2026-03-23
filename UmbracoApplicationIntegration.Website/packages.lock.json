@@ -70,6 +70,18 @@
           "ncrontab": "3.4.0"
         }
       },
+      "Umbraco.Cms.Integrations.Search.Algolia": {
+        "type": "Direct",
+        "requested": "[6.0.0, )",
+        "resolved": "6.0.0",
+        "contentHash": "QVJHnlfm+WfT4q2oUNFTllTnSfM8kgw+KK6uyB8ZBWm7K5g1ggwXLYGh7RtEz/ylx79G84UCD1mPHIYv8uId5Q==",
+        "dependencies": {
+          "Algolia.Search": "6.13.0",
+          "Umbraco.Cms.Api.Common": "[17.0.0, 18.0.0)",
+          "Umbraco.Cms.Api.Management": "[17.0.0, 18.0.0)",
+          "Umbraco.Cms.Web.Website": "[17.0.0, 18.0.0)"
+        }
+      },
       "Umbraco.Cms.Web.Website": {
         "type": "Direct",
         "requested": "[17.2.2, )",
@@ -121,6 +133,14 @@
           "uSync.Backoffice.Management.Api": "17.0.4",
           "uSync.Backoffice.Management.Client": "17.0.4",
           "uSync.History": "17.0.4"
+        }
+      },
+      "Algolia.Search": {
+        "type": "Transitive",
+        "resolved": "6.13.0",
+        "contentHash": "O2urks+/IYyESAdgBWpEgOwcwaw9dZOiEHkJxy9YvoevAG+y427nxhNRI5H570a7buM+AWeeLC3S2oRWEaFZKA==",
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.1"
         }
       },
       "Asp.Versioning.Abstractions": {
