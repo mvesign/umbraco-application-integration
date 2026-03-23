@@ -67,16 +67,30 @@ Course contains several knowledge checks exercises. Below are the questions pres
 
 ## Exercise 4:
 
-1. Why might Algolia be a better option for your search feature than Examine? (pick multiple)
+1. *Why might Algolia be a better option for your search feature than Examine? (pick multiple)*
    - Algolia is easier to scale for high-traffic applications.
    - Algolia supports dynamic updates to search indexes without manual intervention.
    - Algolia includes built-in analytics to monitor and optimize search performance.
 
-2. What does the Umbraco.Cms.Integrations.Search.Algolia package provide?
+2. *What does the Umbraco.Cms.Integrations.Search.Algolia package provide?*
    - Automation tools for indexing Umbraco content in Algolia
 
-3. How many search requests per month does Algolia's free tier currently support?
+3. *How many search requests per month does Algolia's free tier currently support?*
    - 10,000 requests.
 
-4. Which JavaScript library lets you integrate Algolia’s search UI on the frontend?
+4. *Which JavaScript library lets you integrate Algolia’s search UI on the frontend?*
    - InstantSearch
+
+## Exercise 5:
+
+1. *Which file format is NOT supported when uploading data to an Algolia index?*
+   - XML.
+
+2. *How many records can you store in your Algolia index on a free plan?*
+   - 1000000.
+
+3. *Algolia has an intuitive user interface for managing search configurations.*
+   - The answer is `True`, but this is an opinion of Umbraco. Weird to have this as an actual exercise question.
+
+4. *The request response time depends on a number of things, e.g. the query complexity, data center proximity and network conditions. How long is the typical request response time for an Algolia index?*
+   - <20 ms.
