@@ -94,3 +94,29 @@ Course contains several knowledge checks exercises. Below are the questions pres
 
 4. *The request response time depends on a number of things, e.g. the query complexity, data center proximity and network conditions. How long is the typical request response time for an Algolia index?*
    - <20 ms.
+
+## Exercise 6:
+
+1. *Arrange the steps in the recommended order to create your custom Examine index.*
+   1. `{Name}IndexConstants`: Create custom index model of type `T`.
+   2. `{Name}IndexValueSetBuilder`: Create custom index builder of type `IValueSetBuilder<T>`.
+   3. `{Name}IndexPopulator`: Create custom index populator of type `IndexPopulator`.
+   4. `Configure{Name}IndexOptions`: Create custom index named options of type `IConfigureNamedOptions<LuceneDirectoryIndexOptions>`.
+   5. `{Name}LuceneIndex`: Create custom index of type `UmbracoExamineIndex`.
+   6. Register index classes with a composer.
+
+2. *What are the classes for?*
+   - `{Name}IndexConstants`
+     Defines the structure of the data to be indexed.
+   - `{Name}IndexValueSetBuilder`
+     Transforms incoming data into ValueSet objects - the format required for indexing.
+   - `{Name}IndexPopulator`
+     Retrieves data from an external source and populates the custom index by passing this data through the ValueSetBuilder.
+   - `Configure{Name}IndexOptions`
+     Configures the fields, analyzers, and types in the custom index.
+   - `{Name}LuceneIndex`
+     Implements a custom version of the Examine index, allowing unique configurations or extensions to the indexing process.
+
+3. `Which method?`
+   - If we were fetching the IT Book data from somewhere else we could use the exact same approach to get the data into a custom Examine index.
+     The only method we would need to change would be the method where we `populate` the indexes.

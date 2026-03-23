@@ -1956,6 +1956,7 @@
         "type": "Project",
         "dependencies": {
           "Umbraco.Cms": "[17.2.2, )",
+          "Umbraco.Cms.Integrations.Search.Algolia": "[6.0.0, )",
           "Umbraco.UIBuilder": "[17.1.0, )",
           "UmbracoApplicationIntegration.Models": "[1.0.0, )"
         }
