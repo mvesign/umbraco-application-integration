@@ -2,7 +2,7 @@
 
 public sealed class AlgoliaSearchClientSettings
 {
-    private const string DefaultIndexName = "ITBooks";
+    private const string DefaultIndexName = "ITBooksIndex";
     private const int DefaultHitsPerPage = 100;
 
     public const string SectionKey = "Umbraco:CMS:Integrations:Search:Algolia:Settings";
