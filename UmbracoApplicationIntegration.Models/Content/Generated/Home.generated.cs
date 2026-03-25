@@ -56,5 +56,13 @@ namespace UmbracoApplicationIntegration.Models
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("highlightedBooks")]
 		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Cms.Core.Models.PublishedContent.IPublishedContent> HighlightedBooks => this.Value<global::System.Collections.Generic.IEnumerable<global::Umbraco.Cms.Core.Models.PublishedContent.IPublishedContent>>(_publishedValueFallback, "highlightedBooks");
+
+		///<summary>
+		/// Hubspot Form
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("hubspotForm")]
+		public virtual global::Umbraco.Cms.Integrations.Crm.Hubspot.Models.ViewModels.HubspotFormViewModel HubspotForm => this.Value<global::Umbraco.Cms.Integrations.Crm.Hubspot.Models.ViewModels.HubspotFormViewModel>(_publishedValueFallback, "hubspotForm");
 	}
 }

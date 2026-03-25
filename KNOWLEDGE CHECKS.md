@@ -117,6 +117,22 @@ Course contains several knowledge checks exercises. Below are the questions pres
    - `{Name}LuceneIndex`
      Implements a custom version of the Examine index, allowing unique configurations or extensions to the indexing process.
 
-3. `Which method?`
+3. *Which method?*
    - If we were fetching the IT Book data from somewhere else we could use the exact same approach to get the data into a custom Examine index.
      The only method we would need to change would be the method where we `populate` the indexes.
+
+## Exercise 7:
+
+1. *What does HubSpot offer? (pick multiple)*
+   - Integration with CRM for streamlined marketing, sales, and customer service.
+   - Tools for creating content, managing leads, and analyzing performance.
+   - Features for improving customer experiences and running effective marketing campaigns.
+
+2. *If no ApiKey field is configured in the HubSpot settings, what will be used for authentication by default?*
+   - OAuth
+
+3. *Which helper method can be used to render a HubSpot form in an Umbraco template?*
+   - `@Html.RenderHubspotForm()`
+
+4. *What happens if a private app lacks the forms scope when accessing forms via API?*
+   - A `403 Forbidden` error occurs.

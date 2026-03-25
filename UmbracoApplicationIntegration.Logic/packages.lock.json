@@ -71,6 +71,18 @@
           "ncrontab": "3.4.0"
         }
       },
+      "Umbraco.Cms.Integrations.Crm.Hubspot": {
+        "type": "Direct",
+        "requested": "[8.0.0, )",
+        "resolved": "8.0.0",
+        "contentHash": "YqiHMaqtad5d+nrZXaouk1TwVLwtkBmYGOgqpHnS6LV7L8uQvk0x6gzU2EirypRwYxmVwxbz8QMOVDZUFiLN2A==",
+        "dependencies": {
+          "Umbraco.Cms.Api.Common": "[17.0.0, 18.0.0)",
+          "Umbraco.Cms.Api.Management": "[17.0.0, 18.0.0)",
+          "Umbraco.Cms.Web.Common": "[17.0.0, 18.0.0)",
+          "Umbraco.Cms.Web.Website": "[17.0.0, 18.0.0)"
+        }
+      },
       "Umbraco.Cms.Integrations.Search.Algolia": {
         "type": "Direct",
         "requested": "[6.0.0, )",
@@ -2642,7 +2654,8 @@
       "umbracoapplicationintegration.models": {
         "type": "Project",
         "dependencies": {
-          "Umbraco.Cms": "[17.2.2, )"
+          "Umbraco.Cms": "[17.2.2, )",
+          "Umbraco.Cms.Integrations.Crm.Hubspot": "[8.0.0, )"
         }
       },
       "Umbraco.Cms.Web.Website": {

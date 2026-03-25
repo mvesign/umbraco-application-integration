@@ -1,11 +1,11 @@
 ﻿@using Umbraco.Cms.Web.Common.PublishedModels;
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Home>
 @using Umbraco.Cms.Core.Models.Blocks;
+@using Umbraco.Cms.Integrations.Crm.Hubspot.Helpers;
+@using UmbracoApplicationIntegration.Models
 @{
     Layout = "Master.cshtml"; 
 }
-
-<!-- Header -->
 <header id="header">
     <a href="index.html" class="logo"><strong>Umbazing</strong> by Umbraco Training Team</a>
     <ul class="icons">
@@ -26,5 +26,11 @@
     </header>
     <div id="search-box-itbooks"></div>
     <div id="itbook-hits"></div>
-
+    @if (Model.HubspotForm is not null)
+    {
+        <header class="main">
+            <h2> Submit your book review </h2>
+        </header>
+        @Html.RenderHubspotForm(Model.HubspotForm)
+    }
 </section>
