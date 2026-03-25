@@ -16,12 +16,15 @@ public sealed class UmbazingComposer : IComposer
     {
         builder.Services.Configure<AlgoliaSearchClientSettings>(
             builder.Config.GetSection(AlgoliaSearchClientSettings.SectionKey));
+        builder.Services.Configure<HubSpotClientSettings>(
+            builder.Config.GetSection(HubSpotClientSettings.SectionKey));
 
         builder.Services.AddScoped<BookService>();
 
         builder
             .WithCollectionBuilder<MapDefinitionCollectionBuilder>()
-            .Add<BookMapper>();
+            .Add<BookMapper>()
+            .Add<HubSpotMapper>();
 
         // Configure IT books index logic.
         builder.Services.AddSingleton<ITBooksIndexValueSetBuilder>();

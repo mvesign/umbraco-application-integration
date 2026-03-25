@@ -136,3 +136,12 @@ Course contains several knowledge checks exercises. Below are the questions pres
 
 4. *What happens if a private app lacks the forms scope when accessing forms via API?*
    - A `403 Forbidden` error occurs.
+
+
+## Exercise 8:
+
+1. *What is the main purpose of replacing the helper method with a custom implementation?*
+   - To control form rendering and handle submitted data manually 
+
+2. *What is the purpose of the IContentService in the custom implementation?*
+   - To interact with the Umbraco database and create content using the submitted form data

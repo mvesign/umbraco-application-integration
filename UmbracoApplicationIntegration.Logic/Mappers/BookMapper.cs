@@ -5,7 +5,7 @@ using UmbracoApplicationIntegration.Models.External;
 
 namespace UmbracoApplicationIntegration.Logic.Mappers;
 
-public class BookMapper : IMapDefinition
+public sealed class BookMapper : IMapDefinition
 {
     private static readonly CultureInfo dutchProvider = new("nl-NL");
 

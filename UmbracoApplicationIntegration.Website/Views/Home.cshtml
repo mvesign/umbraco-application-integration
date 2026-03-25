@@ -1,10 +1,10 @@
 ﻿@using Umbraco.Cms.Web.Common.PublishedModels;
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Home>
 @using Umbraco.Cms.Core.Models.Blocks;
-@using Umbraco.Cms.Integrations.Crm.Hubspot.Helpers;
-@using UmbracoApplicationIntegration.Models
+@* @using Umbraco.Cms.Integrations.Crm.Hubspot.Helpers; *@
+@using UmbracoApplicationIntegration.Models;
 @{
-    Layout = "Master.cshtml"; 
+    Layout = "Master.cshtml";
 }
 <header id="header">
     <a href="index.html" class="logo"><strong>Umbazing</strong> by Umbraco Training Team</a>
@@ -31,6 +31,100 @@
         <header class="main">
             <h2> Submit your book review </h2>
         </header>
-        @Html.RenderHubspotForm(Model.HubspotForm)
+        <div id="hubspot-form-container">
+            <!-- Form rendering -->
+        </div>
+
+        <script>
+            fetch('/api/hubspot/hubspot-form')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok " + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    let formHtml = `<form id="hubspot-form">`;
+
+                    data.fieldGroups.forEach(group => {
+                        group.fields.forEach(field => {
+                            const required = field.required ? 'required' : '';
+                            formHtml += `
+                                <div class="form-group">
+                                    <label for="${field.name}">${field.label}</label>
+                                    <input
+                                        type="text"
+                                        name="${field.name}"
+                                        id="${field.name}"
+                                        placeholder="${field.label}"
+                                        ${required}>
+                                </div>`;
+                        });
+                    });
+
+                    formHtml += `
+                            <button type="submit">${data.displayOptions.submitButtonText || "Submit"}</button>
+                        </form>`;
+
+                    document.getElementById('hubspot-form-container').innerHTML = formHtml;
+                    document.getElementById('hubspot-form').addEventListener('submit', function (event) {
+                        event.preventDefault();
+
+                        const formData = {};
+                        data.fieldGroups.forEach(group => {
+                            group.fields.forEach(field => {
+                                formData[field.name] = document.getElementById(field.name).value;
+                            });
+                        });
+
+                        const payload = {
+                            fields: Object.keys(formData).map(name => ({
+                                name: name,
+                                value: formData[name]
+                            })),
+                            pageUri: window.location.href,
+                            pageName: document.title
+                        };
+
+                        fetch('/api/hubspot/hubspot-form-submit', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(payload)
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error("Failed to submit form: " + response.statusText);
+                                }
+                                return response.json();
+                            })
+                            .then(result => {
+                                console.log("Form submitted successfully:", result);
+
+                                return fetch('/api/hubspot/create-book-review', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(payload)
+                                   })
+                                   .then(response => {
+                                        if (!response.ok) {
+                                            throw new Error("Failed to create book review: " + response.statusText);
+                                        }
+                                        return response.json();
+                                    })
+                                    .then(result => {
+                                        console.log("Book review created successfully:", result);
+                                        document.getElementById('hubspot-form-container').innerHTML = `<p>${result.message}</p>`;
+                                    })
+                                    .catch(error => console.error("Error submitting form:", error));
+                            })
+                            .catch(error => console.error("Error submitting form:", error));
+                    });
+                })
+                .catch(error => console.error("Error fetching form data:", error));
+        </script>
     }
 </section>
