@@ -3,6 +3,7 @@
 public sealed class HubSpotClientSettings
 {
     public const string SectionKey = "Umbraco:Integrations:Crm:Hubspot:Settings";
+    public const string ServiceAlias = "hubspot";
 
     public string ApiKey { get; set; } = string.Empty;
 

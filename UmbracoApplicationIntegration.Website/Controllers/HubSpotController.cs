@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
+using Umbraco.AuthorizedServices.Services;
 using Umbraco.Cms.Core.Mapping;
 using Umbraco.Cms.Core.Services;
 using UmbracoApplicationIntegration.Logic.Settings;
@@ -15,10 +16,10 @@ public class HubSpotController(
     IOptions<HubSpotClientSettings> hubSpotClientSettings,
     IHttpClientFactory httpClientFactory,
     IUmbracoMapper mapper,
-    IContentService contentService) : Controller
+    IContentService contentService,
+    IAuthorizedServiceCaller authorizedServiceCaller) : Controller
 {
     private readonly HubSpotClientSettings _hubSpotClientSettings = hubSpotClientSettings.Value;
-    private readonly HttpClient _httpClient = httpClientFactory.CreateClient();
 
     [HttpGet("hubspot-form")]
     public async Task<IActionResult> GetHubSpotForm()
@@ -64,7 +65,7 @@ public class HubSpotController(
 
             using var httpClient = CreateHttpClient();
 
-            var response = await _httpClient.PostAsync(hubSpotUrl, jsonContent);
+            var response = await httpClient.PostAsync(hubSpotUrl, jsonContent);
 
             response = response.EnsureSuccessStatusCode();
 
@@ -112,12 +113,23 @@ public class HubSpotController(
         }
     }
 
-    private HttpClient CreateHttpClient()
+    private async Task<HttpClient> CreateHttpClient()
     {
         var httpClient = httpClientFactory.CreateClient();
 
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _hubSpotClientSettings.ApiKey);
+        var accessToken = await GetAccessTokenAsync();
+
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
         return httpClient;
+    }
+
+    private async Task<string> GetAccessTokenAsync()
+    {
+        // Use the GetOAuth2AccessToken method to fetch the access token
+        var tokenResult = await authorizedServiceCaller.GetOAuth2AccessToken(HubSpotClientSettings.ServiceAlias);
+        return tokenResult.Success && !string.IsNullOrWhiteSpace(tokenResult.Result)
+            ? tokenResult.Result
+            : _hubSpotClientSettings.ApiKey;
     }
 }

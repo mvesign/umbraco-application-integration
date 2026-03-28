@@ -4,6 +4,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
+    <PackageVersion Include="Umbraco.AuthorizedServices" Version="17.0.0" />
     <PackageVersion Include="Umbraco.Cms" Version="17.2.2" />
     <PackageVersion Include="Umbraco.Cms.Integrations.Crm.Hubspot" Version="8.0.0" />
     <PackageVersion Include="Umbraco.Cms.Integrations.Search.Algolia" Version="6.0.0" />
