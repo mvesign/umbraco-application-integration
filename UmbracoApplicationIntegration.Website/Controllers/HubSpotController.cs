@@ -28,7 +28,7 @@ public class HubSpotController(
 
         try
         {
-            using var httpClient = CreateHttpClient();
+            using var httpClient = await CreateHttpClient();
 
             var response = await httpClient.GetAsync(hubSpotUrl);
 
@@ -63,7 +63,7 @@ public class HubSpotController(
 
             var jsonContent = new StringContent(JsonConvert.SerializeObject(hubSpotPayload), Encoding.UTF8, "application/json");
 
-            using var httpClient = CreateHttpClient();
+            using var httpClient = await CreateHttpClient();
 
             var response = await httpClient.PostAsync(hubSpotUrl, jsonContent);
 
